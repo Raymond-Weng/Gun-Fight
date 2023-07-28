@@ -27,6 +27,11 @@ public class Main {
     private RenderImpl render;
     private CameraImpl camera;
 
+    private CreateButton createButton;
+    private JoinButton joinButton;
+
+    public String scene;
+
     public static void main(String[] args) {
         main = new Main();
     }
@@ -67,14 +72,18 @@ public class Main {
         frame.setGame(game);
         frame.showFrame();
 
+        scene = "menu";
         camera.setGame(game);
         render.setGame(game);
         update.setGame(game);
 
         game.build();
 
-        game.addObject(new CreateButton(game, mouseListener), 1);
-        game.addObject(new JoinButton(game, mouseListener), 1);
+        createButton = new CreateButton(game, mouseListener);
+        joinButton = new JoinButton(game, mouseListener);
+
+        game.addObject(createButton, 1);
+        game.addObject(joinButton, 1);
 
         game.run();
     }
@@ -86,10 +95,14 @@ public class Main {
     public void joinGame() {
         //TODO join game
         System.out.println("join");
+
+        game.removeObject(createButton, 1);
     }
 
     public void createGame() {
         //TODO create game
         System.out.println("create");
+
+        game.removeObject(joinButton, 1);
     }
 }
