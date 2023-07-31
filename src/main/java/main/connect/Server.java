@@ -13,10 +13,11 @@ public class Server extends Timer {
 
     private String ip;
     private int port;
-    private BufferedWriter bufferedWriter;
-    private BufferedReader bufferedReader;
 
-    private String syncString = "good morning";
+    private DataOutputStream dataOutputStream;
+    private DataInputStream dataInputStream;
+
+    private String syncString = "";
     private String readString = "";
     private int pingMilliSecond = 0;
 
@@ -39,18 +40,18 @@ public class Server extends Timer {
                     port = serverSocket.getLocalPort();
                 }
                 socket = serverSocket.accept();
-                System.out.println(socket.getInetAddress());
-                bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-                bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                System.out.println(socket.getInetAddress());    //TODO a debug print here
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
+                dataInputStream = new DataInputStream(socket.getInputStream());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
         try {
-            bufferedWriter.write(System.currentTimeMillis() + "!" + syncString);
-            bufferedWriter.flush();
-            String s = bufferedReader.readLine();
-            pingMilliSecond = Integer.valueOf(s.split("!")[0]);
+            dataOutputStream.writeUTF(System.currentTimeMillis() + "!" + syncString);
+
+            String s = dataInputStream.readUTF();
+            pingMilliSecond = (int)(Double.valueOf(s.split("!")[0]) - System.currentTimeMillis());
             readString = s.substring(s.split("!")[0].length() + 1);
         } catch (IOException e) {
             throw new RuntimeException(e);

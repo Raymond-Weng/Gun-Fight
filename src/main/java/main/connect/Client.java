@@ -12,8 +12,8 @@ public class Client extends Timer {
     private String host;
     private int port;
 
-    private BufferedWriter bufferedWriter;
-    private BufferedReader bufferedReader;
+    private DataOutputStream dataOutputStream;
+    private DataInputStream dataInputStream;
 
     private String syncString = "";
     private String readString = "";
@@ -30,21 +30,18 @@ public class Client extends Timer {
         if(socket == null){
             try {
                 socket = new Socket(host, port);
-                bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-                bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
+                dataInputStream = new DataInputStream(socket.getInputStream());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
         try {
-            String s = bufferedReader.readLine();
-            pingMilliSecond = Integer.valueOf(s.split("!")[0]);
+            String s = dataInputStream.readUTF();
+            pingMilliSecond = (int)(Double.valueOf(s.split("!")[0]) - System.currentTimeMillis());
             readString = s.substring(s.split("!")[0].length() + 1);
 
-            bufferedWriter.write(System.currentTimeMillis() + "!" + syncString);
-            bufferedWriter.flush();
-
-            System.out.println(pingMilliSecond + readString);
+            dataOutputStream.writeUTF(System.currentTimeMillis() + "!" + syncString);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
