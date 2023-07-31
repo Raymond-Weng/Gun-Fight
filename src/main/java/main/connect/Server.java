@@ -14,29 +14,29 @@ public class Server extends Timer {
     private String ip;
     private int port;
 
-    public Server(){
+    public Server() {
         this(0);
     }
 
-    public Server(int port){
-        super(1d/60d);
+    public Server(int port) {
+        super(1d / 60d);
         this.port = port;
     }
 
     @Override
     public void action() {
-        if(serverSocket == null){
+        if (serverSocket == null) {
             try {
                 serverSocket = new ServerSocket(port);
-                if(port == 0){
+                if (port == 0) {
                     ip = InetAddress.getLocalHost().getHostAddress();
                     port = serverSocket.getLocalPort();
                 }
                 socket = serverSocket.accept();
-                System.out.println(socket.getInetAddress());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
+
     }
 }
