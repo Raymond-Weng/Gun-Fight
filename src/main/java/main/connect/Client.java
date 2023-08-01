@@ -9,15 +9,15 @@ import java.net.Socket;
 public class Client extends Timer {
     private Socket socket = null;
 
-    private String host;
-    private int port;
+    private volatile String host;
+    private volatile int port;
 
     private DataOutputStream dataOutputStream;
     private DataInputStream dataInputStream;
 
-    private String syncString = "";
-    private String readString = "";
-    private int pingMilliSecond = 0;
+    private volatile String syncString = "";
+    private volatile String readString = "";
+    private volatile int pingMilliSecond = 0;
 
     public Client(String host, int port){
         super(1d/60d);
@@ -53,5 +53,9 @@ public class Client extends Timer {
 
     public String getReadString(){
         return readString;
+    }
+
+    public int getPingMilliSecond(){
+        return pingMilliSecond;
     }
 }

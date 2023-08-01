@@ -11,15 +11,15 @@ public class Server extends Timer {
     private ServerSocket serverSocket = null;
     private Socket socket;
 
-    private String ip;
-    private int port;
+    private volatile String ip;
+    private volatile int port;
 
     private DataOutputStream dataOutputStream;
     private DataInputStream dataInputStream;
 
-    private String syncString = "";
-    private String readString = "";
-    private int pingMilliSecond = 0;
+    private volatile String syncString = "";
+    private volatile String readString = "";
+    private volatile int pingMilliSecond = 0;
 
     public Server() {
         this(0);
@@ -64,5 +64,17 @@ public class Server extends Timer {
 
     public String getReadString(){
         return readString;
+    }
+
+    public int getPingMilliSecond(){
+        return pingMilliSecond;
+    }
+
+    public String getIp(){
+        return ip;
+    }
+
+    public int getPort(){
+        return port;
     }
 }

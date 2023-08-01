@@ -27,36 +27,42 @@ public class JoinButton extends GameObject {
     @Override
     public void update() {
         if(graphics != null) {
-            if (hit) {
-                if (mouseListener.isMousePressed(MouseEvent.BUTTON1)) {
-                    if (!new Rectangle((-graphics.getFontMetrics().stringWidth(" Join room ") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
-                            (-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntWidth()/2),
-                            graphics.getFontMetrics().stringWidth(" Join room "),
-                            graphics.getFontMetrics().getFont().getSize())
-                            .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
-                                    mouseListener.getMousePos().getY() * (game.getCamera().getDisplayArea().getHeight() / game.getOutput().getSize().getHeight()))){
-                        hit = false;
+            switch (Main.getMain().scene) {
+                case "menu":
+                    if (hit) {
+                        if (mouseListener.isMousePressed(MouseEvent.BUTTON1)) {
+                            if (!new Rectangle((-graphics.getFontMetrics().stringWidth(" Join room ") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
+                                    (-graphics.getFontMetrics().getFont().getSize() / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
+                                    graphics.getFontMetrics().stringWidth(" Join room "),
+                                    graphics.getFontMetrics().getFont().getSize())
+                                    .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
+                                            mouseListener.getMousePos().getY() * (game.getCamera().getDisplayArea().getHeight() / game.getOutput().getSize().getHeight()))) {
+                                hit = false;
+                            }
+                        } else {
+                            if (new Rectangle((-graphics.getFontMetrics().stringWidth(" Join room ") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
+                                    (-graphics.getFontMetrics().getFont().getSize() / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
+                                    graphics.getFontMetrics().stringWidth(" Join room "),
+                                    graphics.getFontMetrics().getFont().getSize())
+                                    .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
+                                            mouseListener.getMousePos().getY() * (game.getCamera().getDisplayArea().getHeight() / game.getOutput().getSize().getHeight()))) {
+                                Main.getMain().joinGame();
+                            }
+                            hit = false;
+                        }
+                    } else if (mouseListener.isMousePressed(MouseEvent.BUTTON1)) {
+                        if (new Rectangle((-graphics.getFontMetrics().stringWidth(" Join room ") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
+                                (-graphics.getFontMetrics().getFont().getSize() / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
+                                graphics.getFontMetrics().stringWidth(" Join room "),
+                                graphics.getFontMetrics().getFont().getSize())
+                                .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
+                                        mouseListener.getMousePos().getY() * (game.getCamera().getDisplayArea().getHeight() / game.getOutput().getSize().getHeight()))) {
+                            hit = true;
+                        }
                     }
-                }else{
-                    if(new Rectangle((-graphics.getFontMetrics().stringWidth(" Join room ") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
-                            (-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntWidth()/2),
-                            graphics.getFontMetrics().stringWidth(" Join room "),
-                            graphics.getFontMetrics().getFont().getSize())
-                            .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
-                                    mouseListener.getMousePos().getY() * (game.getCamera().getDisplayArea().getHeight() / game.getOutput().getSize().getHeight()))){
-                        Main.getMain().joinGame();
-                    }
-                    hit = false;
-                }
-            }else if(mouseListener.isMousePressed(MouseEvent.BUTTON1)){
-                if (new Rectangle((-graphics.getFontMetrics().stringWidth(" Join room ") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
-                        (-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntWidth()/2),
-                        graphics.getFontMetrics().stringWidth(" Join room "),
-                        graphics.getFontMetrics().getFont().getSize())
-                        .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
-                                mouseListener.getMousePos().getY() * (game.getCamera().getDisplayArea().getHeight() / game.getOutput().getSize().getHeight()))){
-                    hit = true;
-                }
+                    break;
+                case "Join":
+
             }
         }
     }
