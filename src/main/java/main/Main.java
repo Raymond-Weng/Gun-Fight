@@ -9,10 +9,7 @@ import jGame.main.Game;
 import jGame.output.Frame;
 import jGame.output.listener.KeyListenerImpl;
 import jGame.output.listener.MouseListenerImpl;
-import main.objects.CreateButton;
-import main.objects.IpDisplay;
-import main.objects.JoinButton;
-import main.objects.PortDisplay;
+import main.objects.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,6 +29,7 @@ public class Main {
     private JoinButton joinButton;
     private IpDisplay ipDisplay;
     private PortDisplay portDisplay;
+    private StartButton startButton;
 
     public volatile String scene;
 
@@ -107,11 +105,14 @@ public class Main {
         System.out.println("create");
         scene = "create";
         game.removeObject(joinButton, 1);
-        ipDisplay = new IpDisplay(game);
-        portDisplay = new PortDisplay();
+        ipDisplay = new IpDisplay(game, "IP : loading...");
+        portDisplay = new PortDisplay(game, "Port : loading...");
+        startButton = new StartButton(game, mouseListener);
     }
 
     public void createReady() {
         game.addObject(ipDisplay, 1);
+        game.addObject(portDisplay, 1);
+        game.addObject(startButton, 1);
     }
 }

@@ -14,8 +14,9 @@ public class IpDisplay extends GameObject {
     private Graphics graphics;
     private String text;
 
-    public IpDisplay(Game game){
+    public IpDisplay(Game game, String ip){
         this.game = game;
+        this.text = ip;
     }
 
     @Override
@@ -51,5 +52,9 @@ public class IpDisplay extends GameObject {
     @Override
     public Size getSize() {
         return game.getCamera().getDisplayArea();
+    }
+
+    public void setIp(String ip){
+        this.text = ip;
     }
 }
