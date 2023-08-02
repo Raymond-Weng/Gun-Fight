@@ -322,6 +322,16 @@ public class Game {
      * build the game, like loading output, reading file, etc.
      */
     public void build() {
+        objectsToBeAdded = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            objectsToBeAdded.add(new ArrayList<>());
+        }
+
+        objectsToBeRemoved = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            objectsToBeRemoved.add(new ArrayList<>());
+        }
+
         for (int i = 0; i < gameThreads.length; i++) {
             if (i != 0) {
                 timerManagers[i] = new TimerManager();
@@ -347,16 +357,6 @@ public class Game {
 
             hitboxTracker = new HitboxTracker(this);
             this.addObject(hitboxTracker, 9);
-        }
-
-        objectsToBeAdded = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            objectsToBeAdded.add(new ArrayList<>());
-        }
-
-        objectsToBeRemoved = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            objectsToBeRemoved.add(new ArrayList<>());
         }
     }
 
@@ -529,12 +529,12 @@ public class Game {
      * [auto call] remove objects which was made to be added in {@code addObject()}
      */
     public void cleanToBeAddedList() {
-        for (int i = 0; i < objectsToBeRemoved.size(); i++) {
+        for (int i = 0; i < objectsToBeAdded.size(); i++) {
             if (!objectsToBeAdded.get(i).isEmpty()) {
                 int finalI = i;
-                synchronized (objectsToBeRemoved.get(i)) {
-                    objectsToBeRemoved.get(i).forEach(gameObject -> objects.get(finalI).add(gameObject));
-                    objectsToBeRemoved.set(i, new ArrayList<>());
+                synchronized (objectsToBeAdded.get(i)) {
+                    objectsToBeAdded.get(i).forEach(gameObject -> objects.get(finalI).add(gameObject));
+                    objectsToBeAdded.set(i, new ArrayList<>());
                 }
                 System.gc();
             }

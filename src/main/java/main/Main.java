@@ -112,5 +112,6 @@ public class Main {
     }
 
     public void createReady() {
+        game.addObject(ipDisplay, 1);
     }
 }
