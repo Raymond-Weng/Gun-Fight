@@ -30,6 +30,8 @@ public class Main {
     private IpDisplay ipDisplay;
     private PortDisplay portDisplay;
     private StartButton startButton;
+    private IpInput ipInput;
+    private PortInput portInput;
 
     public volatile String scene;
 
@@ -98,6 +100,13 @@ public class Main {
         System.out.println("join");
         scene = "join";
         game.removeObject(createButton, 1);
+
+        ipInput = new IpInput(game, keyListener);
+        portInput = new PortInput(game, keyListener);
+    }
+
+    public void joinReady() {
+        game.addObject(ipInput, 1);
     }
 
     public void createGame() {
@@ -114,8 +123,5 @@ public class Main {
         game.addObject(ipDisplay, 1);
         game.addObject(portDisplay, 1);
         game.addObject(startButton, 1);
-    }
-
-    public void joinReady() {
     }
 }
