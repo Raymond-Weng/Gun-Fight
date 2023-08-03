@@ -115,4 +115,7 @@ public class Main {
         game.addObject(portDisplay, 1);
         game.addObject(startButton, 1);
     }
+
+    public void joinReady() {
+    }
 }

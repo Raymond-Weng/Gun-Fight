@@ -31,11 +31,11 @@ public class CreateButton extends GameObject {
         if(graphics != null) {
             switch (Main.getMain().scene) {
                 case "menu":
-                    y = (-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntWidth()/2);
+                    y = (-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntHeight()/2);
                     if (hit) {
                         if (mouseListener.isMousePressed(MouseEvent.BUTTON1)) {
                             if (!new Rectangle((-graphics.getFontMetrics().stringWidth("Create room") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
-                                    (int) ((-graphics.getFontMetrics().getFont().getSize() * 1.5) + (game.getCamera().getDisplayArea().getIntWidth() / 2)),
+                                    y,
                                     graphics.getFontMetrics().stringWidth("Create room"),
                                     graphics.getFontMetrics().getFont().getSize())
                                     .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
@@ -44,7 +44,7 @@ public class CreateButton extends GameObject {
                             }
                         } else {
                             if (new Rectangle((-graphics.getFontMetrics().stringWidth("Create room") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
-                                    (int) ((-graphics.getFontMetrics().getFont().getSize() * 1.5) + (game.getCamera().getDisplayArea().getIntWidth() / 2)),
+                                    y,
                                     graphics.getFontMetrics().stringWidth("Create room"),
                                     graphics.getFontMetrics().getFont().getSize())
                                     .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
@@ -55,7 +55,7 @@ public class CreateButton extends GameObject {
                         }
                     } else if (mouseListener.isMousePressed(MouseEvent.BUTTON1)) {
                         if (new Rectangle((-graphics.getFontMetrics().stringWidth("Create room") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
-                                (int) ((-graphics.getFontMetrics().getFont().getSize() * 1.5) + (game.getCamera().getDisplayArea().getIntWidth() / 2)),
+                                y,
                                 graphics.getFontMetrics().stringWidth("Create room"),
                                 graphics.getFontMetrics().getFont().getSize())
                                 .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
@@ -64,7 +64,7 @@ public class CreateButton extends GameObject {
                         }
                     }
                 case "create":
-                    if(y > (-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntWidth()/2) - game.getCamera().getDisplayArea().getIntHeight() / 2){
+                    if(y > (-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntHeight()/4)){
                         y -= 10;
                     }else{
                         Main.getMain().createReady();
@@ -84,7 +84,7 @@ public class CreateButton extends GameObject {
         graphics.setFont(new Font(null, Font.PLAIN, game.FONT_SIZE));
         graphics.drawString("Create room",
                 (-graphics.getFontMetrics().stringWidth("Create room") / 2) + (game.getCamera().getDisplayArea().getIntWidth()/2),
-                y);
+                y + graphics.getFontMetrics().getFont().getSize());
         graphics.dispose();
         return image;
     }

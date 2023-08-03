@@ -27,7 +27,7 @@ public class StartButton extends GameObject {
     public StartButton(Game game, MouseListenerImpl mouseListener) {
         this.game = game;
         this.mouseListener = mouseListener;
-        this.text = "Waiting for second player...";
+        this.text = "Waiting for the second player...";
     }
 
     @Override

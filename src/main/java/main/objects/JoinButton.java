@@ -17,7 +17,9 @@ public class JoinButton extends GameObject {
     private MouseListenerImpl mouseListener;
 
     private boolean hit = false;
-    private Graphics graphics = null;
+    private Graphics graphics;
+
+    private int y;
 
     public JoinButton(Game game, MouseListenerImpl mouseListener) {
         this.game = game;
@@ -29,10 +31,11 @@ public class JoinButton extends GameObject {
         if(graphics != null) {
             switch (Main.getMain().scene) {
                 case "menu":
+                    y = (graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntHeight()/2);
                     if (hit) {
                         if (mouseListener.isMousePressed(MouseEvent.BUTTON1)) {
                             if (!new Rectangle((-graphics.getFontMetrics().stringWidth(" Join room ") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
-                                    (-graphics.getFontMetrics().getFont().getSize() / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
+                                    y,
                                     graphics.getFontMetrics().stringWidth(" Join room "),
                                     graphics.getFontMetrics().getFont().getSize())
                                     .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
@@ -41,7 +44,7 @@ public class JoinButton extends GameObject {
                             }
                         } else {
                             if (new Rectangle((-graphics.getFontMetrics().stringWidth(" Join room ") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
-                                    (-graphics.getFontMetrics().getFont().getSize() / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
+                                    y,
                                     graphics.getFontMetrics().stringWidth(" Join room "),
                                     graphics.getFontMetrics().getFont().getSize())
                                     .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
@@ -52,7 +55,7 @@ public class JoinButton extends GameObject {
                         }
                     } else if (mouseListener.isMousePressed(MouseEvent.BUTTON1)) {
                         if (new Rectangle((-graphics.getFontMetrics().stringWidth(" Join room ") / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
-                                (-graphics.getFontMetrics().getFont().getSize() / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
+                                y,
                                 graphics.getFontMetrics().stringWidth(" Join room "),
                                 graphics.getFontMetrics().getFont().getSize())
                                 .contains(mouseListener.getMousePos().getX() * (game.getCamera().getDisplayArea().getWidth() / game.getOutput().getSize().getIntWidth()),
@@ -60,9 +63,13 @@ public class JoinButton extends GameObject {
                             hit = true;
                         }
                     }
+                case "join":
+                    if(y > (-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntHeight()/4)){
+                        y -= 10;
+                    }else{
+                        Main.getMain().joinReady();
+                    }
                     break;
-                case "Join":
-
             }
         }
     }
@@ -77,7 +84,7 @@ public class JoinButton extends GameObject {
         graphics.setFont(new Font(null, Font.PLAIN, game.FONT_SIZE));
         graphics.drawString(" Join room ",
                 (-graphics.getFontMetrics().stringWidth(" Join room ") / 2) + (game.getCamera().getDisplayArea().getIntWidth()/2),
-                (graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntWidth()/2));
+                y + graphics.getFontMetrics().getFont().getSize());
         graphics.dispose();
         return image;
     }
