@@ -20,6 +20,7 @@ public class JoinButton extends GameObject {
     private Graphics graphics;
 
     private int y;
+    private boolean ready = false;
 
     public JoinButton(Game game, MouseListenerImpl mouseListener) {
         this.game = game;
@@ -67,7 +68,10 @@ public class JoinButton extends GameObject {
                     if(y > (-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntHeight()/4)){
                         y -= 10;
                     }else{
-                        Main.getMain().joinReady();
+                        if(!ready) {
+                            Main.getMain().joinReady();
+                            ready = true;
+                        }
                     }
                     break;
             }

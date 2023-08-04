@@ -33,7 +33,7 @@ public class StartButton extends GameObject {
     @Override
     public void update() {
         if(graphics != null) {
-            y = game.getCamera().getDisplayArea().getIntHeight() - ((-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntWidth()/2) - game.getCamera().getDisplayArea().getIntHeight() / 2);
+            y = (-graphics.getFontMetrics().getFont().getSize()/2) + (game.getCamera().getDisplayArea().getIntHeight()/4) + (game.getCamera().getDisplayArea().getIntHeight() / 2);
             if (hit) {
                 if (mouseListener.isMousePressed(MouseEvent.BUTTON1)) {
                     if (!new Rectangle((-graphics.getFontMetrics().stringWidth(text) / 2) + (game.getCamera().getDisplayArea().getIntWidth() / 2),
@@ -99,7 +99,7 @@ public class StartButton extends GameObject {
     }
 
     public void ready(){
-        this.ready = ready;
+        this.ready = true;
         this.text = "> Start Game <";
     }
 }

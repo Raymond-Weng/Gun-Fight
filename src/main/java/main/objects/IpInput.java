@@ -10,22 +10,24 @@ import main.Main;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.security.Key;
 
 public class IpInput extends GameObject {
     private Game game;
     private Graphics graphics;
-    private String text = "";
+    private String text;
     private KeyListenerImpl keyListener;
     private boolean[] keyPressed;
+    private boolean backSpacePressed = false;
+    private boolean enterPressed = false;
+    private boolean periodPressed = false;
 
     public IpInput(Game game, KeyListenerImpl keyListener){
         this.game = game;
         this.keyListener = keyListener;
 
         keyPressed = new boolean[11];
+        text = "IP : (leave this blank to connect to localhost)";
     }
 
     @Override
@@ -33,14 +35,61 @@ public class IpInput extends GameObject {
         if(Main.getMain().scene.equals("join")){
             for(int i = KeyEvent.VK_0; i <= KeyEvent.VK_9; i++){
                 if(keyListener.isKeyPressed(i)){
-                    if(!keyPressed[Integer.valueOf(KeyEvent.getKeyText(i))]){
-                        keyPressed[Integer.valueOf(KeyEvent.getKeyText(i))] = true;
+                    if(!keyPressed[Integer.parseInt(KeyEvent.getKeyText(i))]){
+                        keyPressed[Integer.parseInt(KeyEvent.getKeyText(i))] = true;
                     }
                 }else{
-                    if(keyPressed[Integer.valueOf(KeyEvent.getKeyText(i))]){
-                        text = text + Integer.valueOf(KeyEvent.getKeyText(i));
-                        keyPressed[Integer.valueOf(KeyEvent.getKeyText(i))] = false;
+                    if(keyPressed[Integer.parseInt(KeyEvent.getKeyText(i))]){
+                        if(text.equals("IP : (leave this blank to connect to localhost)")){
+                            text = "IP : " + Integer.valueOf(KeyEvent.getKeyText(i));
+                        }else {
+                            text = text + Integer.valueOf(KeyEvent.getKeyText(i));
+                        }
+                        keyPressed[Integer.parseInt(KeyEvent.getKeyText(i))] = false;
                     }
+                }
+            }
+            if(keyListener.isKeyPressed(KeyEvent.VK_PERIOD)){
+                if(!periodPressed){
+                    periodPressed = true;
+                }
+            }else{
+                if(periodPressed){
+                    if(text.equals("IP : (leave this blank to connect to localhost)")){
+                        text = "IP : .";
+                    }else {
+                        text = text + ".";
+                    }
+                    periodPressed = false;
+                }
+            }
+            if(keyListener.isKeyPressed(KeyEvent.VK_BACK_SPACE)){
+                if(!backSpacePressed){
+                    backSpacePressed = true;
+                }
+            }else{
+                if(backSpacePressed){
+                    if(!text.equals("IP : (leave this blank to connect to localhost)")) {
+                        text = text.substring(0, text.length() - 1);
+                        if (text.equals("IP : ")) {
+                            text = "IP : (leave this blank to connect to localhost)";
+                        }
+                    }
+                    backSpacePressed = false;
+                }
+            }
+            if(keyListener.isKeyPressed(KeyEvent.VK_ENTER)){
+                if(!enterPressed){
+                    enterPressed = true;
+                }
+            }else{
+                if(enterPressed){
+                    if(text.equals("IP : (leave this blank to connect to localhost)")){
+                        Main.getMain().ipEnterFinish("localhost");
+                    }else {
+                        Main.getMain().ipEnterFinish(text.substring(5));
+                    }
+                    enterPressed = false;
                 }
             }
         }

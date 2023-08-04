@@ -32,6 +32,9 @@ public class Main {
     private StartButton startButton;
     private IpInput ipInput;
     private PortInput portInput;
+    private InputHint inputHint;
+
+    private String ip;
 
     public volatile String scene;
 
@@ -103,10 +106,23 @@ public class Main {
 
         ipInput = new IpInput(game, keyListener);
         portInput = new PortInput(game, keyListener);
+        inputHint = new InputHint(game);
     }
 
     public void joinReady() {
         game.addObject(ipInput, 1);
+        game.addObject(inputHint, 1);
+    }
+
+    public void ipEnterFinish(String ip){
+        this.ip = ip;
+        game.removeObject(ipInput, 1);
+        game.addObject(portInput, 1);
+        inputHint.ready();
+    }
+
+    public void portEnterFinish(){
+        //TODO join
     }
 
     public void createGame() {
